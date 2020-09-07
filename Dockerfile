@@ -1,20 +1,26 @@
 FROM debian:stretch
 
+RUN export MY_INSTALL_DIR=$HOME/.local \
+    && mkdir -p $MY_INSTALL_DIR \
+    && export PATH="$PATH:$MY_INSTALL_DIR/bin"
+
 RUN apt-get update && apt-get install -y \
   cmake build-essential autoconf git pkg-config \
   automake libtool curl make g++ unzip \
-  && apt-get clean
+  && apt-get clean \
+  && mkdir /grpc
+
+WORKDIR /grpc
 
 # install protobuf first, then grpc
-ENV GRPC_RELEASE_TAG v1.31.0
-RUN git clone -b ${GRPC_RELEASE_TAG} https://github.com/grpc/grpc /var/local/git/grpc && \
-		cd /var/local/git/grpc && \
-    git submodule update --init && \
-    mkdir build && \
-    cd build && \
+RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc && \
+    cd grpc && \
+    mkdir -p cmake/build && \
+    pushd cmake/build && \
     cmake -DgRPC_INSTALL=ON \
       -DgRPC_BUILD_TESTS=OFF \
-      .. \
-    && make -j$(nproc) \
-    && make install \
-    && make clean && ldconfig
+      -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
+      ../.. && \
+    make -j && \
+    make install && \
+    popd && \
