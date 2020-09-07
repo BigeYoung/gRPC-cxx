@@ -14,7 +14,6 @@ RUN git clone -b ${GRPC_RELEASE_TAG} https://github.com/grpc/grpc /var/local/git
     cd build && \
     cmake -DgRPC_INSTALL=ON \
       -DgRPC_BUILD_TESTS=OFF \
-      -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
       .. \
     && make -j$(nproc) \
     && make install \
