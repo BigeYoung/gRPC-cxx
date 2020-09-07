@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 RUN apt-get update && apt-get install -y \
-  build-essential autoconf git pkg-config \
+  cmake build-essential autoconf git pkg-config \
   automake libtool curl make g++ unzip \
   && apt-get clean
 
