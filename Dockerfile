@@ -13,14 +13,14 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /grpc
 
 # install protobuf first, then grpc
-RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc && \
-    cd grpc && \
-    mkdir -p cmake/build && \
-    cd cmake/build && \
-    cmake -DgRPC_INSTALL=ON \
+RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
+    && cd grpc \
+    && mkdir -p cmake/build \
+    && cd cmake/build \
+    && cmake -DgRPC_INSTALL=ON \
       -DgRPC_BUILD_TESTS=OFF \
       -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
-      ../.. && \
-    make -j && \
-    make install && \
-    cd .. && \
+      ../.. \
+    && make -j \
+    && make install \
+    && cd ..
