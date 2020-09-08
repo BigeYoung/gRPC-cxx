@@ -18,9 +18,13 @@ RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
     && mkdir -p cmake/build \
     && cd cmake/build \
     && cmake -DgRPC_INSTALL=ON \
-      -DgRPC_BUILD_TESTS=OFF \
-      -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
-      ../.. \
+        -DgRPC_BUILD_TESTS=OFF \
+        -DgRPC_PROTOBUF_PROVIDER=package \
+        -DgRPC_ZLIB_PROVIDER=package \
+        -DgRPC_CARES_PROVIDER=package \
+        -DgRPC_SSL_PROVIDER=package \
+        -DCMAKE_BUILD_TYPE=Release \
+        ../.. \
     && make -j \
     && make install \
     && cd ..
