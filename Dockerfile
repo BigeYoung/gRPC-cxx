@@ -15,7 +15,7 @@ RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
     && cmake -DgRPC_INSTALL=ON \
         -DgRPC_BUILD_TESTS=OFF \
         -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
-        ../..
+        ../.. \
     && make -j \
     && make install \
     && cd ..
