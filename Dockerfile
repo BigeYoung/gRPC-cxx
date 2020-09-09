@@ -1,17 +1,11 @@
-FROM debian:stretch
+FROM ubuntu:latest
 
 RUN export MY_INSTALL_DIR=$HOME/.local \
     && mkdir -p $MY_INSTALL_DIR \
     && export PATH="$PATH:$MY_INSTALL_DIR/bin"
 
 RUN apt-get update && apt-get install -y \
-  cmake build-essential autoconf git pkg-config python-pip \
-  automake libtool curl make g++ unzip libssl-dev libc-ares-dev \
-  && pip install absl-py \
-  && apt-get clean \
-  && mkdir /grpc
-
-WORKDIR /grpc
+  cmake build-essential autoconf libtool pkg-config
 
 # install protobuf first, then grpc
 RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
@@ -20,13 +14,8 @@ RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
     && cd cmake/build \
     && cmake -DgRPC_INSTALL=ON \
         -DgRPC_BUILD_TESTS=OFF \
-        -DgRPC_PROTOBUF_PROVIDER=package \
-        -DgRPC_ZLIB_PROVIDER=package \
-        -DgRPC_CARES_PROVIDER=package \
-        -DgRPC_SSL_PROVIDER=package \
-        -DgRPC_ABSL_PROVIDER=package \
-        -DCMAKE_BUILD_TYPE=Release \
-        ../.. \
+        -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
+        ../..
     && make -j \
     && make install \
     && cd ..
