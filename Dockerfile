@@ -1,5 +1,7 @@
 FROM ubuntu:latest
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN export MY_INSTALL_DIR=$HOME/.local \
     && mkdir -p $MY_INSTALL_DIR \
     && export PATH="$PATH:$MY_INSTALL_DIR/bin"
