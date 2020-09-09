@@ -5,8 +5,9 @@ RUN export MY_INSTALL_DIR=$HOME/.local \
     && export PATH="$PATH:$MY_INSTALL_DIR/bin"
 
 RUN apt-get update && apt-get install -y \
-  cmake build-essential autoconf git pkg-config \
-  automake libtool curl make g++ unzip \
+  cmake build-essential autoconf git pkg-config python-pip \
+  automake libtool curl make g++ unzip libssl-dev libc-ares-dev \
+  && pip install absl-py \
   && apt-get clean \
   && mkdir /grpc
 
@@ -23,6 +24,7 @@ RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
         -DgRPC_ZLIB_PROVIDER=package \
         -DgRPC_CARES_PROVIDER=package \
         -DgRPC_SSL_PROVIDER=package \
+        -DgRPC_ABSL_PROVIDER=package \
         -DCMAKE_BUILD_TYPE=Release \
         ../.. \
     && make -j \
