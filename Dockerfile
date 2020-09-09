@@ -7,7 +7,7 @@ RUN export MY_INSTALL_DIR=$HOME/.local \
     && export PATH="$PATH:$MY_INSTALL_DIR/bin"
 
 RUN apt-get update && apt-get install -y \
-  cmake build-essential autoconf libtool pkg-config
+  git cmake build-essential autoconf libtool pkg-config
 
 # install protobuf first, then grpc
 RUN git clone --recurse-submodules -b v1.31.0 https://github.com/grpc/grpc \
