@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
   libprotoc-dev protobuf-c-compiler protobuf-compiler-grpc
 
 # install protobuf first, then grpc
-RUN git clone --recurse-submodules -b v1.33.2 https://github.com/grpc/grpc \
+RUN git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc \
     && cd grpc \
     && mkdir -p cmake/build \
     && cd cmake/build \
